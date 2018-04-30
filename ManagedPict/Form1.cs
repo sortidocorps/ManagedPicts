@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -10,7 +12,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ManagedPict.tools;
-using Microsoft.VisualBasic.PowerPacks;
 
 namespace ManagedPict
 {
@@ -26,6 +27,13 @@ namespace ManagedPict
 
         private const string NoExifsFolder = "sansExifs";
 
+        private string _artist;
+        private string _copyrights;
+
+        private string _initFolderPath;
+        private string _initNasPath;
+        private string _initExecPath;
+
         public MangedPics()
         {
             InitializeComponent();
@@ -35,13 +43,23 @@ namespace ManagedPict
         private void MangedPics_Load(object sender, EventArgs e)
         {
 
-            this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            //this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+
+
+            Hashtable section = (Hashtable) ConfigurationManager.GetSection("MaConfig/MaSection");
+            _artist = section["artist"].ToString();
+            _copyrights = section["copyrights"].ToString();
+            _initFolderPath = section["pathFolder"].ToString();
+            _initNasPath = section["pathNas"].ToString();
+            _initExecPath = section["pathExec"].ToString();
+
+
 
 
             // Mettre le path du traiter 
             //RootFolder  
-            folderBrowserDialog1.SelectedPath = @"C:\_NICO\perso\winform\traiter";//System.Environment.SpecialFolder.MyComputer;
-            this.BackgroundImage = (Image) (new Bitmap(ManagedPict.Properties.Resources.Capture, new Size(1182, 699)));
+            folderBrowserDialog1.SelectedPath = _initFolderPath;
+            this.BackgroundImage = (Image) (new Bitmap(ManagedPict.Properties.Resources._31943775505_47ea0c0775_b, new Size(1182, 699)));
 
             pictureBoxFolder.Image = (Image)(new Bitmap(ManagedPict.Properties.Resources.if_folder_open_1608888, new Size(32, 32)));
             pictureBoxNas.Image = (Image)(new Bitmap(ManagedPict.Properties.Resources.if_Streamline_08_185027, new Size(32, 32)));
@@ -121,7 +139,7 @@ namespace ManagedPict
         private void CopyExec()
         {
             var fileName = "exiftool.exe";
-            var sourcePath = @"C:\_NICO\perso\winform";
+            var sourcePath = _initExecPath;
             var targetPath = _noExifPath;
 
             // Use Path class to manipulate file and directory paths.
@@ -146,21 +164,16 @@ namespace ManagedPict
 
         private void pictureBoxNas_Click(object sender, EventArgs e)
         {
-            // this.folderBrowserDialog1.RootFolder = "nas path";
-            folderBrowserDialog1.SelectedPath = @"C:\_NICO\perso\winform\NAS";
+            folderBrowserDialog1.SelectedPath = _initNasPath;
 
             DialogResult result = folderBrowserDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
-                // the code here will be executed if the user presses Open in
-                // the dialog.
                 _nasPath = folderBrowserDialog1.SelectedPath;
                 lblNas.Text = _nasPath;
-                /* foreach (string f in Directory.GetFiles(foldername))
-                     this.listBox1.Items.Add(f);*/
             }
 
-            folderBrowserDialog1.RootFolder = Environment.SpecialFolder.MyComputer;
+            //folderBrowserDialog1.RootFolder = Environment.SpecialFolder.MyComputer;
         }
 
        
@@ -189,7 +202,7 @@ namespace ManagedPict
 
             backgroundWorker1.ReportProgress(30);
 
-            var command = "exiftool.exe -all= *.jpg";
+            var command = "start exiftool.exe -all= *.jpg";
             var removeBatPath = MakeBatFile(command, BatNameSup);
 
             backgroundWorker1.ReportProgress(40);
@@ -198,10 +211,10 @@ namespace ManagedPict
 
             backgroundWorker1.ReportProgress(50);
             
-            var artist = string.IsNullOrEmpty(textBoxArtist.Text) ? @"Sortido Pict" : textBoxArtist.Text;
-            var copyrights = string.IsNullOrEmpty(textBoxCopyrights.Text) ? @"sortidopict" : textBoxCopyrights.Text;
+           /* var artist = string.IsNullOrEmpty(textBoxArtist.Text) ? @"Sortido Pict" : textBoxArtist.Text;
+            var copyrights = string.IsNullOrEmpty(textBoxCopyrights.Text) ? @"sortidopict" : textBoxCopyrights.Text;*/
             
-            command = "exiftool -artist=\""+ artist + "\" -copyright=\""+ copyrights + "\" *.jpg";
+            command = "start exiftool -artist=\"" + _artist + "\" -copyright=\""+ _copyrights + "\" *.jpg";
 
             var addBatPath = MakeBatFile(command, BatNameAdd);
 
@@ -228,7 +241,7 @@ namespace ManagedPict
 
             backgroundWorker1.ReportProgress(90);
             backgroundWorker1.ReportProgress(100);
-
+            
 
         }
 

@@ -32,6 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic.PowerPacks, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Design, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -65,6 +67,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -78,6 +81,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Capture.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_close_309090.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_folder_green_open_7480.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_folder_open_2867.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_folder-open_1608888.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_nas_71932.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_Streamline-08_185027.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_23_Play_106223.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_YouTube_191274.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
